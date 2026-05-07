@@ -10,7 +10,7 @@ The Logos Blockchain is the blockchain module of the Logos technology stack, pro
 
 A node composes several services: Cryptarchia for consensus, [libp2p](https://libp2p.io/) for peer-to-peer communication with peer discovery handled by Kademlia (a distributed hash table protocol built into libp2p), [Blend](https://press.logos.co/article/why-proposer-anonymity) for privacy-preserving message mixing, a UTXO-based ledger with zero-knowledge proofs, and a wallet for key management. The node connects to peers using multiaddr addresses, a self-describing format that encodes network layers into a single path (for example, `/ip4/<ip>/udp/<port>/quic-v1/p2p/<peer-id>`).
 
-In this quickstart you install the Logos Blockchain node, connect to the public devnet, and verify it is running.
+In this quickstart you install the Logos Blockchain node, connect to the public testnet, and verify it is running.
 
 > [!NOTE]
 >
@@ -60,7 +60,7 @@ The node requires zero-knowledge circuit files for cryptographic operations. Zer
 
     > [!TIP]
     >
-    > Check the [releases page](https://github.com/logos-blockchain/logos-blockchain/releases/) for a newer version before downloading.
+    > Check the [releases page](https://github.com/logos-blockchain/logos-blockchain/releases/latest) for a newer version before downloading.
 
 1. Extract the `tar.gz` files:
 
@@ -85,7 +85,7 @@ The node requires zero-knowledge circuit files for cryptographic operations. Zer
 
 ## Step 2: Run the Logos Blockchain node
 
-The node separates configuration into two layers. The deployment configuration holds network-wide parameters such as consensus settings and genesis state (the built-in "devnet" deployment is the default). The user configuration holds per-node settings such as cryptographic keys, ports, and peer addresses. The `init` subcommand generates a user config with fresh cryptographic keys, auto-detects your public IP via the libp2p Identify protocol, and writes the result to the `user_config.yaml` file.
+The user configuration holds per-node settings such as cryptographic keys, ports, and peer addresses. The `init` subcommand generates a user config with fresh cryptographic keys, auto-detects your public IP via the libp2p Identify protocol, and writes the result to the `user_config.yaml` file.
 
 Bootstrap nodes are the initial contact points for joining the network. Once your node connects to them, it uses Kademlia to discover additional peers and no longer depends on the bootstrap nodes.
 
@@ -97,14 +97,14 @@ Bootstrap nodes are the initial contact points for joining the network. Once you
         -p {peer2}
     ```
 
-    The bootstrap peers used for this command can be found in the [Logos Blockchain Node release notes](https://github.com/logos-blockchain/logos-blockchain/releases/). For example, the 0.1.2 release uses:
+    The bootstrap peers used for this command can be found in the [Logos Blockchain Node release notes](https://github.com/logos-blockchain/logos-blockchain/releases/latest). For example, the 0.1.2 release uses:
 
     ```sh
     ./logos-blockchain-node init \
-        -p /ip4/65.109.51.37/udp/3000/quic-v1/p2p/12D3KooWL7a8LBbLRYnabptHPFBCmAs49Y7cVMqvzuSdd43tAJk8 \
-        -p /ip4/65.109.51.37/udp/3001/quic-v1/p2p/12D3KooWPLeAcachoUm68NXGD7tmNziZkVeMmeBS5NofyukuMRJh \
-        -p /ip4/65.109.51.37/udp/3002/quic-v1/p2p/12D3KooWKFNe4gS5DcCcRUVGdMjZp3fUWu6q6gG5R846Ui1pccHD \
-        -p /ip4/65.109.51.37/udp/3003/quic-v1/p2p/12D3KooWAnriLgXyQnGTYz1zPWPkQL3rthTKYLzuAP7MMnbgsxzR
+        -p /ip4/65.109.51.37/udp/3000/quic-v1 \
+        -p /ip4/65.109.51.37/udp/3001/quic-v1 \
+        -p /ip4/65.109.51.37/udp/3002/quic-v1 \
+        -p /ip4/65.109.51.37/udp/3003/quic-v1
     ```
 
     > [!NOTE]
@@ -177,7 +177,7 @@ Before requesting tokens, wait for your node to finish syncing. The node must be
 
 ## Step 4: Request tokens from the faucet
 
-A faucet distributes free tokens on test networks to experiment without financial risk. The devnet faucet is a separate service that transfers tokens to a specified ZK public key through the node's wallet API.
+A faucet distributes free tokens on test networks to experiment without financial risk. The testnet faucet is a separate service that transfers tokens to a specified ZK public key through the node's wallet API.
 
 1. In another terminal window, find the keys associated with your node by running the following command:
 
@@ -194,7 +194,7 @@ A faucet distributes free tokens on test networks to experiment without financia
     voucher_master_key_id: de3233cec107e6589f83d4f3094caa65c633b5b33601211353779dc01972ca14
     ```
 
-1. Choose any of the keys in `known_keys` and navigate to the [public faucet site](https://devnet.blockchain.logos.co/web/faucet/). Enter your chosen key in **Destination Public Key (Hex)** and press **Request Funds**.
+1. Choose any of the keys in `known_keys` and navigate to the [public faucet site](https://testnet.blockchain.logos.co/web/faucet/). Enter your chosen key in **Destination Public Key (Hex)** and press **Request Funds**.
 
     ![Image of the faucet UI after requesting funds with a public key](./quickstart-guide-for-the-logos-blockchain-node/image1.png)
 
@@ -220,9 +220,9 @@ A faucet distributes free tokens on test networks to experiment without financia
 
 ## Step 5: Participate in the consensus mechanism
 
-Once the faucet UTXO has aged (approximately 3.5 hours, or two epochs on the current devnet), your node automatically enters the consensus lottery and may begin proposing blocks. No further action is required.
+Once the faucet UTXO has aged (approximately 3.5 hours, or two epochs on the current testnet), your node automatically enters the consensus lottery and may begin proposing blocks. No further action is required.
 
-You can compare your node's chain state against the devnet fleet at the [Logos devnet dashboard](https://devnet.blockchain.logos.co/web/).
+You can compare your node's chain state against the testnet fleet at the [Logos testnet dashboard](https://testnet.blockchain.logos.co/web/).
 
 > [!NOTE]
 >
@@ -231,6 +231,6 @@ You can compare your node's chain state against the devnet fleet at the [Logos d
 
 ## Known limitations
 
-- The [devnet explorer](https://devnet.blockchain.logos.co/web/) shows an error when clicking on a transaction. Searching by address is not supported.
+- The [testnet explorer](https://testnet.blockchain.logos.co/web/) shows an error when clicking on a transaction. Searching by address is not supported.
 - Transaction hashes returned by the faucet may appear truncated, and the transaction may not be immediately findable in the explorer.
 - If the node is restarted while bootstrapping, it does not save sync progress and will restart from the beginning.
