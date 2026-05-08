@@ -42,7 +42,7 @@ The node requires zero-knowledge circuit files for cryptographic operations. Zer
 
     ```sh
     # download ZK circuits
-    wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.1.2/logos-blockchain-circuits-v0.4.1-linux-x86_64.tar.gz
+    wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.1.2/logos-blockchain-circuits-v0.4.2-linux-x86_64.tar.gz
 
     # download node binary
     wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.1.2/logos-blockchain-node-linux-x86_64-0.1.2.tar.gz
@@ -52,7 +52,7 @@ The node requires zero-knowledge circuit files for cryptographic operations. Zer
 
     ```sh
     # download ZK circuits
-    wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.1.2/logos-blockchain-circuits-v0.4.1-linux-aarch64.tar.gz
+    wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.1.2/logos-blockchain-circuits-v0.4.2-linux-aarch64.tar.gz
 
     # download node binary
     wget https://github.com/logos-blockchain/logos-blockchain/releases/download/0.1.2/logos-blockchain-node-linux-aarch64-0.1.2.tar.gz
@@ -93,8 +93,8 @@ Bootstrap nodes are the initial contact points for joining the network. Once you
 
     ```sh
     ./logos-blockchain-node init \
-        -p {peer1} \
-        -p {peer2}
+        -p <peer1> \
+        -p <peer2>
     ```
 
     The bootstrap peers used for this command can be found in the [Logos Blockchain Node release notes](https://github.com/logos-blockchain/logos-blockchain/releases/latest). For example, the 0.1.2 release uses:
@@ -138,6 +138,7 @@ Before requesting tokens, wait for your node to finish syncing. The node must be
     ```json
     {
       "lib": "3d0c...4e6d",
+      "lib_slot": 0,
       "tip": "f44d...e2f5",
       "slot": 70899,
       "height": 120,
@@ -197,6 +198,16 @@ A faucet distributes free tokens on test networks to experiment without financia
 1. Choose any of the keys in `known_keys` and navigate to the [public faucet site](https://testnet.blockchain.logos.co/web/faucet/). Enter your chosen key in **Destination Public Key (Hex)** and press **Request Funds**.
 
     ![Image of the faucet UI after requesting funds with a public key](./quickstart-guide-for-the-logos-blockchain-node/image1.png)
+
+    > [!TIP]
+    >
+    > **Programmatic alternative.** The faucet UI POSTs to `https://testnet.blockchain.logos.co/faucet-backend/<your-chosen-key>`. You can call that endpoint directly from a script or headless host:
+    >
+    > ```sh
+    > curl -X POST "https://testnet.blockchain.logos.co/faucet-backend/<your-chosen-key>"
+    > ```
+    >
+    > The response includes the transaction hash; the explorer URL it returns currently uses the `devnet.blockchain.logos.co` subdomain (see issue #244 for the testnet/devnet branding split).
 
 1. Wait 1 to 2 minutes, then verify that your funds were received by querying the balance of your wallet. Replace `<your-chosen-key>` with the key you used in the previous step:
 
